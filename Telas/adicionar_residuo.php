@@ -4,7 +4,11 @@ namespace PHP\Modelo\Telas;
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
+if (!isset($_SESSION['usuario'])) {
+    // Redireciona para a página de login
+    header('Location: login.php');
+    exit();
+}
 require_once('../DAO/Conexao.php');
 require_once('../DAO/Inserir.php');
 
@@ -27,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $destino = $_POST['destino'];
         
         $inserir = new Inserir();
-        $result = $inserir->cadastrarResiduos($conexao, $dt, $categoria, $peso, $destino);
+        $result = $inserir->cadastrarResiduos($conexao, $_SESSION['usuario'], $dt, $categoria, $peso, $destino);
         
         $_SESSION['message'] = $result;
         header('Location: Menu.php');

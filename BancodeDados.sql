@@ -12,24 +12,50 @@ create table Residuos(
 )Engine = innoDB;
 
 create table Categoria(
-	codigo int not null primary key,
+	codigo int not null primary key auto_increment,
     categoria varchar(150) not null
 )Engine = innoDB;
 
 drop table residuos;
+drop table categoria;
 
 select * from cliente;
 select * from usuario;
 select * from funcionario;
 select * from residuos;
+select * from categoria;
 
+INSERT INTO Categoria (categoria) VALUES 
+    ('nao reciclavel'),
+    ('reciclavel'),
+    ('óleo'),
+    ('tampinhas plasticas'),
+    ('lacres de aluminio'),
+    ('tecidos'),
+    ('meias'),
+    ('material de escrita'),
+    ('esponjas'),
+    ('eletrônicos'),
+    ('pilhas e baterias'),
+    ('infectante'),
+    ('químicos'),
+    ('lâmpada fluorescente'),
+    ('tonners de impressora'),
+    ('esmaltes'),
+    ('cosméticos'),
+    ('cartela de medicamento');
 
 
 create table usuario(
 	codigo int not null primary key auto_increment,
     usuario varchar(120) not null,
-    senha varchar(120) not null
+    senha varchar(120) not null,
+    tipo varchar(50) not null
 )engine = innoDB;
+drop table usuario;
+INSERT INTO `usuario` (`codigo`,`usuario`,`senha`,tipo) VALUES ('','adm','123','adm');
+
+
 INSERT INTO `usuario` (`codigo`,`usuario`,`senha`) VALUES (1,'Jhon','Jhon');
 INSERT INTO `usuario` (`codigo`,`usuario`,`senha`) VALUES (2,'Allan','Allan');
 INSERT INTO Usuario (codigo, senha) VALUES ('admin', 'senha123');
@@ -45,5 +71,5 @@ VALUES ('', 'João Silva', '2023-10-01 14:30:00', 'Plástico', 12.50, 'Centro de
 alter table Residuos 
 ADD COLUMN categoria_id INT,
 ADD CONSTRAINT fk_categoria
-FOREIGN KEY (categoria_id)
+FOREIGN KEY (codigo)
 REFERENCES Categoria(codigo);

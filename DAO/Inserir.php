@@ -7,6 +7,7 @@
 
     class Inserir{
         function cadastrarResiduos(Conexao $conexao,
+                                       string $usuario,
                                        string $dt,
                                        string $categoria,
                                        string $peso,
@@ -15,7 +16,7 @@
             try{
                 $conn = $conexao->conectar();//Abrir banco de dados codigo, usuario, dt, categoria, peso, destino
                 $sql  = "insert into Residuos(codigo,usuario,dt,categoria,peso,destino)
-                         values('','allan','$dt','$categoria','$peso','$destino')";
+                         values('','$usuario','$dt','$categoria','$peso','$destino')";
                 $result = mysqli_query($conn, $sql);
                 mysqli_close($conn);
                 if($result){

@@ -9,6 +9,7 @@
     use PHP\Modelo\DAO\Consultar;
     use PHP\Modelo\DAO\Conexao;
 
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['usuario']) && isset($_POST['senha'])) {
             $conexao = new Conexao();
@@ -16,9 +17,10 @@
             $senha = $_POST['senha'];
             $consultar = new Consultar();
     
+            $resultado = "";
             // Verifica o usuário e a senha
             $resultado = $consultar->consultarUsuarioIndividual($conexao, $usuario, $senha);
-    
+            
             if ($resultado) {
                 // Armazena o nome do usuário na sessão
                 $_SESSION['usuario'] = $usuario;
@@ -26,9 +28,6 @@
                 // Redireciona para a página do menu
                 header('Location: Menu.php');
                 exit();
-            } else {
-                // Exibe uma mensagem de erro
-                echo "<script>alert('Usuário ou senha incorretos!');</script>";
             }
         }
     }
@@ -57,11 +56,11 @@
             <h1 class="h3 mb-3 fw-normal">Faça login</h1>
 
             <div class="form-floating">
-                <input name="usuario" type="text" class="form-control" id="floatingInput" placeholder="Username">
+                <input name="usuario" type="text" class="form-control" id="floatingInput" placeholder="Username" required>
                 <label for="validationDefaultUsername floatingInput">Usuario</label>
             </div>
             <div class="form-floating">
-                <input name="senha" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <input name="senha" type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
                 <label for="validationDefaultUsername floatingPassword">Senha</label>
             </div>
 
@@ -75,13 +74,12 @@
                       </div>
                       <div class="col">
                         <div>
-                            <a href="#" class="txt1">
+                            <a href="RedefinirSenha.php" class="txt1">
                                 Esqueceu?
                             </a>
                         </div>
                       </div>
-                  </div>
-                
+                  </div>                
             </div>
             <button class="btn btn-primary w-100 py-2">Entrar
                 

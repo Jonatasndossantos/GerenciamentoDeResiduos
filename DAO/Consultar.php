@@ -15,24 +15,25 @@
                 $conn = $conexao->conectar();
 
                 if ($conn) {
-                    // Executa a consulta
-                    $sql = "SELECT * FROM usuario";
+                    
+                    // Agora a consulta corrigida
+                    $sql = "SELECT * FROM usuario where usuario = '$usuario' AND senha = '$senha'";
                     $result = mysqli_query($conn, $sql);
-                
                     // Verifica se a consulta foi bem-sucedida
                     if ($result) {
-                        $row = mysqli_num_rows($result);
-                        if ($row > 0) {
-                            while ($res = mysqli_fetch_array($result)) {
-                                if($dados['codigo'] == $usuario){
-                                    echo "<br>Usuario: ".$dados['codigo'].
+                        if (mysqli_num_rows($result) > 0) {
+                            while($dados = mysqli_fetch_array($result)) {
+                                if($dados['usuario'] == $usuario) {
+                                    echo "<br>Usuario: ".$dados['usuario'].
                                          "<br>Senha: ".$dados['senha'];
-                                    return;//Finalizar o while
+                                    return true;//Finalizar o while
                                 }
-                                return "código digitado invalido!";
+                            }
+                            if(!$dados || $dados['codigo'] != $usuario) {
+                                echo "<br>Código de usuário inválido!";
                             }
                         } else {
-                            echo "Nenhum registro encontrado.";
+                            echo "<br>Senha inválida!";
                         }
                     } else {
                         echo "Erro na consulta: " . mysqli_error($conn);
@@ -48,6 +49,28 @@
                 echo $erro;
             }
         }//fim do consultarUsuarioIndividual
+
+        public function atualizarSenha($conexao, $usuario, $novaSenha) {
+            try {
+                $conn = $conexao->conectar();
+                $senhaHash = ($novaSenha);
+                
+                $sql = "UPDATE usuario SET senha = '$senhaHash' WHERE usuario = '$usuario'";
+                $result = mysqli_query($conn, $sql);
+                
+                if ($result) {
+                    return true;
+                } else {
+                    echo "Erro ao atualizar senha: " . mysqli_error($conn);
+                    return false;
+                }
+                
+            } catch(Exception $erro) {
+                echo $erro;
+                return false;
+            }
+        }
+
     }//fim da classe
 
 
