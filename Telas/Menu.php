@@ -34,7 +34,7 @@ $usuarioLogado = $_SESSION['usuario']; // Obtém o nome do usuário logado
     <style>
         body{
         background-image: url(../img/Reciclagem.jpeg);
-    }
+        }
     </style>
     
 

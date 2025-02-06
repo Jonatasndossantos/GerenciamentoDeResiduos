@@ -67,16 +67,8 @@ if (!$result) {
     <div class="container mt-4">
         <h2>Configurações</h2>
         
-        <!-- Abas de Configuração -->
-        <ul class="nav nav-tabs" id="configTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="categorias-tab" data-bs-toggle="tab" 
-                        data-bs-target="#categorias" type="button" role="tab">
-                    Categorias
-                </button>
-            </li>
-        </ul>
-
+        
+                
         <!-- Conteúdo das Abas -->
         <div class="tab-content" id="configTabsContent">
             <!-- Aba de Categorias -->
@@ -87,19 +79,23 @@ if (!$result) {
                     <?php endif; ?>
 
                     <!-- Formulário para adicionar categoria -->
-                    <form method="POST" action="configuracoes.php" class="mb-3">
-                        <input type="hidden" name="acao" value="adicionar">
-                        <div class="row g-3 align-items-center">
-                            <div class="col-auto">
-                                <input type="text" class="form-control" name="categoria" 
-                                       placeholder="Nova categoria" required>
+                    <div class="d-flex">    
+                        <form method="POST" action="configuracoes.php" class="mb-3 d-flex">
+                            <input type="hidden" name="acao" value="adicionar">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-auto">
+                                    <input type="text" class="form-control" name="categoria" 
+                                           placeholder="Nova categoria" required>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                                </div>
                             </div>
-                            <div class="col-auto">
-                                <button type="submit" class="btn btn-primary">Adicionar</button>
-                            </div>
+                        </form>
+                        <div class="col text-end">
+                            <a href="../Telas/Menu.php"><button class="btn btn-danger">Voltar</button></a>
                         </div>
-                    </form>
-
+                    </div>        
                     <!-- Tabela de categorias -->
                     <div class="table-responsive">
                         <table class="table table-striped">

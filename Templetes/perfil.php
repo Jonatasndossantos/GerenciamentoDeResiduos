@@ -51,9 +51,14 @@ $dados = mysqli_fetch_assoc($result);
                             <label class="fw-bold">Usuário:</label>
                             <p><?php echo htmlspecialchars($dados['usuario']); ?></p>
                         </div>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                            Editar Dados
-                        </button>
+                        <div class="">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                                Editar Dados
+                            </button>
+                            <a href="../Telas/Menu.php"class="btn btn-danger text-end">
+                                Voltar
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

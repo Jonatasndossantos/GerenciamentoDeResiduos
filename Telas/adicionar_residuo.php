@@ -47,16 +47,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../Css/BotaoDark.css">
+    <style>
+        body{
+        background-image: url(../img/Reciclagem.jpeg);
+        }
+    </style>
 </head>
 <body class="container">
     <!--botao dark-->
     <?php include('../Templetes/BotaoDark.php');?>
     <!--fim botao dark-->
     
-<div class="container-xl">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="POST">
+<div class="pt-3 container-xl">
+    <div class="card p-3 modal-dialog ">
+        <div class="modal-content grid gap-3">
+            <form class="modal-content grid gap-3" method="POST">
                 <div class="modal-header">                        
                     <h4 class="modal-title">Adicionar Residuos</h4>
                 </div>

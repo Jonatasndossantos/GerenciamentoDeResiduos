@@ -127,7 +127,7 @@ if (isset($_GET['action'])) {
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><a class="dropdown-item" href="../Templetes/perfil.php"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
-                                    <li><a class="dropdown-item" href="../Templetes/configuracoes.php"><i class="bi bi-gear me-2"></i>Configurações</a></li>
+                                    <li><a class="dropdown-item" href="../Templetes/configuracoes.php"><i class="bi bi-gear me-2"></i>Categorias</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item text-danger" href="../logout.php"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
                                 </ul>
@@ -224,9 +224,11 @@ if (isset($_GET['action'])) {
                                                                    <?php echo (isset($_SESSION['select_all']) && $_SESSION['select_all']) ? 'checked' : ''; ?>>
                                                         </span>
                                                     </td>
+                                                    <td><?php echo $res['usuario']; ?></td>
                                                     <td><?php echo $res['dt']; ?>hrs</td>
                                                     <td><?php echo $res['categoria']; ?></td>
                                                     <td><?php echo $res['peso']; ?>kg</td>
+                                                    <td><?php echo $res['destino']; ?></td>
                                                     <td>
                                                         <a href="editar_residuo.php?codigo=<?php echo $res['codigo']; ?>&dt=<?php echo $res['dt']; ?>&categoria=<?php echo $res['categoria']; ?>&peso=<?php echo $res['peso']; ?>" 
                                                             class="edit">

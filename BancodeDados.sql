@@ -19,9 +19,7 @@ create table Categoria(
 drop table residuos;
 drop table categoria;
 
-select * from cliente;
 select * from usuario;
-select * from funcionario;
 select * from residuos;
 select * from categoria;
 
@@ -56,8 +54,8 @@ drop table usuario;
 INSERT INTO `usuario` (`codigo`,`usuario`,`senha`,tipo) VALUES ('','adm','123','adm');
 
 
-INSERT INTO `usuario` (`codigo`,`usuario`,`senha`) VALUES (1,'Jhon','Jhon');
-INSERT INTO `usuario` (`codigo`,`usuario`,`senha`) VALUES (2,'Allan','Allan');
+INSERT INTO `usuario` (`codigo`,`usuario`,`senha`) VALUES ('','Jhon','Jhon');
+INSERT INTO `usuario` (`codigo`,`usuario`,`senha`) VALUES ('','Allan','Allan');
 INSERT INTO Usuario (codigo, senha) VALUES ('admin', 'senha123');
 
 INSERT INTO Residuos (codigo, usuario, dt, categoria, peso, destino) 
