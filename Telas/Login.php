@@ -18,6 +18,9 @@
             $consultar = new Consultar();
     
             $resultado = "";
+            try{
+
+            
             // Verifica o usuário e a senha
             $resultado = $consultar->consultarUsuarioIndividual($conexao, $usuario, $senha);
             
@@ -28,6 +31,9 @@
                 // Redireciona para a página do menu
                 header('Location: Menu.php');
                 exit();
+            }
+            }catch(Except $erro){
+                echo $erro;
             }
         }
     }
@@ -45,15 +51,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="../Css/BotaoDark.css">
+    <style>
+        body{
+        background-image: url(../img/Reciclagem.jpeg);
+        }
+    </style>
+    
 </head>
 
 <body class="d-flex align-items-center py-4 bg-body-tertiary" cz-shortcut-listen="true">
     <?php include('../Templetes/BotaoDark.php');?>
 
     <!--caixa de login-->
-    <main class="form-signin w-100 m-auto">
+    <main class="card p-4 form-signin w-100 m-auto">
         <form method="POST">
-            <h1 class="h3 mb-3 fw-normal">Faça login</h1>
+            
+            <h1 class="h3 mb-4 fw-normal">Faça login</h1>
 
             <div class="form-floating">
                 <input name="usuario" type="text" class="form-control" id="floatingInput" placeholder="Username" required>

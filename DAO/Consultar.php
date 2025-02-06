@@ -33,7 +33,7 @@
                                 echo "<br>Código de usuário inválido!";
                             }
                         } else {
-                            echo "<br>Senha inválida!";
+                            echo "<script>alert('Senha ou Usuario invalidos.');</script>";
                         }
                     } else {
                         echo "Erro na consulta: " . mysqli_error($conn);

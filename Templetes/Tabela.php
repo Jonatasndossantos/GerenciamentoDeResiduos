@@ -13,6 +13,15 @@ use PHP\Modelo\DAO\Consultar;
 use PHP\Modelo\DAO\Conexao;
 use PHP\Modelo\DAO\Inserir;
 
+// Cria uma instância da classe Conexao
+$conexao = new Conexao();
+
+// Obtém a conexão mysqli
+$conn = $conexao->conectar();
+
+
+
+
 // Gerencia o checkbox "selecionar todos"
 if (isset($_POST['select_all_checkbox'])) {
     $_SESSION['select_all'] = true;
@@ -94,13 +103,8 @@ if (isset($_GET['action'])) {
                                             <select name="categoria_filtro" class="form-select">
                                                 <option value="">Todas as categorias</option>
                                                 <?php
-                                                
+                                                    
                                                     $categorias = [
-                                                    'nao reciclavel', 'reciclavel', 'óleo', 'tampinhas plasticas',
-                                                    'lacres de aluminio', 'tecidos', 'meias', 'material de escrita',
-                                                    'esponjas', 'eletrônicos', 'pilhas e baterias', 'infectante',
-                                                    'químicos', 'lâmpada fluorescente', 'tonners de impressora',
-                                                    'esmaltes', 'cosméticos', 'cartela de medicamento'
                                                 ];
                                                 foreach ($categorias as $cat) {
                                                     $selected = (isset($_GET['categoria_filtro']) && $_GET['categoria_filtro'] === $cat) ? 'selected' : '';
@@ -170,20 +174,17 @@ if (isset($_GET['action'])) {
                                                 </span>
                                             </form>
                                         </th>
-                                        <th scope="col"><h3>Data</h3></th>
-                                        <th scope="col"><h3>Categoria</h3></th>
-                                        <th scope="col"><h3>Peso</h3></th>
-                                        <th scope="col"><h3>Ações</h3></th>
+                                        <th scope="col"><h4>Usuario</h4></th>
+                                        <th scope="col"><h4>Data</h4></th>
+                                        <th scope="col"><h4>Categoria</h4></th>
+                                        <th scope="col"><h4>Peso</h4></th>
+                                        <th scope="col"><h4>Destino</h4></th>
+                                        <th scope="col"><h4>Ações</h4></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    // Cria uma instância da classe Conexao
-                                    $conexao = new Conexao();
-
-                                    // Obtém a conexão mysqli
-                                    $conn = $conexao->conectar();
-
+                                    
                                     // Verifica se a conexão foi bem-sucedida
                                     if ($conn) {
                                         // Prepara a consulta SQL base
@@ -204,7 +205,9 @@ if (isset($_GET['action'])) {
                                         if (isset($_GET['search']) && !empty($_GET['search'])) {
                                             $search = mysqli_real_escape_string($conn, $_GET['search']);
                                             $sql .= " AND (categoria LIKE '%$search%' 
+                                                      OR usuario LIKE '%$search%' 
                                                       OR dt LIKE '%$search%' 
+                                                      OR destino LIKE '%$search%' 
                                                       OR peso LIKE '%$search%')";
                                         }
 
@@ -246,16 +249,16 @@ if (isset($_GET['action'])) {
                                         <?php
                                                 }
                                             } else {
-                                                echo "<tr><td colspan='5'>Nenhum registro encontrado.</td></tr>";
+                                                echo "<tr><td colspan='7'>Nenhum registro encontrado.</td></tr>";
                                             }
                                         } else {
-                                            echo "<tr><td colspan='5'>Erro na consulta: " . mysqli_error($conn) . "</td></tr>";
+                                            echo "<tr><td colspan='7'>Erro na consulta: " . mysqli_error($conn) . "</td></tr>";
                                         }
                                     
                                         // Fecha a conexão (opcional)
                                         mysqli_close($conn);
                                     } else {
-                                        echo "<tr><td colspan='5'>Não foi possível conectar ao banco de dados.</td></tr>";
+                                        echo "<tr><td colspan='7'>Não foi possível conectar ao banco de dados.</td></tr>";
                                     }
                                     ?>
                                 </tbody>

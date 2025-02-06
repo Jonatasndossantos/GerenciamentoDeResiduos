@@ -12,7 +12,7 @@
                 font-size: 3.5rem;
             }
         }
-
+        
         .b-example-divider {
             width: 100%;
             height: 3rem;
@@ -58,7 +58,28 @@
         .bd-mode-toggle .dropdown-menu .active .bi {
             display: block !important;
         }
+        :root {
+          --color-green: green;
+          --color-green2: rgb(2, 94, 2);
+          --color-green3: rgb(2, 71, 2);
+        }
 
+        .btn-bd-primary {
+          --bd-violet-bg: var(--color-green);
+          --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+          --bs-btn-font-weight: 600;
+          --bs-btn-color: var(--bs-white);
+          --bs-btn-bg: var(--bd-violet-bg);
+          --bs-btn-border-color: var(--bd-violet-bg);
+          --bs-btn-hover-color: var(--bs-white);
+          --bs-btn-hover-bg: var(--color-green2);
+          --bs-btn-hover-border-color: var(--color-green2);
+          --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+          --bs-btn-active-color: var(--bs-btn-hover-color);
+          --bs-btn-active-bg: var(--color-green3);
+          --bs-btn-active-border-color: var(--color-green3);
+      }
 
         html,
         body {
