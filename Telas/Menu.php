@@ -1,12 +1,10 @@
 <?php
     namespace PHP\Modelo\Telas;
 
-    require_once('..\Cliente.php');
     require_once('..\DAO\Conexao.php');
     require_once('..\DAO\Inserir.php');
     
 
-    use PHP\Modelo\Cliente;
     use PHP\Modelo\DAO\Conexao;
     use PHP\Modelo\DAO\Inserir;
 
@@ -37,18 +35,14 @@ $usuarioLogado = $_SESSION['usuario']; // Obtém o nome do usuário logado
         }
     </style>
     
-
-    <!-- Custom styles for this template -->
 </head>
 <body>
     <!--botao dark-->
     <?php include('../Templetes/BotaoDark.php');?>
     <!--fim botao dark-->
 
-
-
-<!--https://www.php.net/manual/en/mysqli-result.fetch-array.php-->
-<?php include('../Templetes/Tabela.php');?>
+    <!--https://www.php.net/manual/en/mysqli-result.fetch-array.php-->
+    <?php include('../Templetes/Tabela.php');?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 

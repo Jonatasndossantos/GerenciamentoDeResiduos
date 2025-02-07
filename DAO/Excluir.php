@@ -20,38 +20,34 @@
                 echo "Não deletado!";
             }
         }//fim excluirResiduos
-        public function excluirResiduos2(Conexao $conexao, $codigo): bool {
-            $codigo = (int)$codigo; // Converte o valor para int
-            try {
-                $conn = $conexao->conectar();
-                if (!$conn) {
-                    throw new \Exception("Erro ao conectar ao banco de dados.");
-                }
         
-                // Usando prepared statements para evitar SQL injection
-                $sql = "DELETE FROM Residuos WHERE codigo = ?";
-                $stmt = mysqli_prepare($conn, $sql);
-        
-                if (!$stmt) {
-                    throw new \Exception("Erro na preparação da query: " . mysqli_error($conn));
-                }
-        
-                mysqli_stmt_bind_param($stmt, "i", $codigo);
-                $result = mysqli_stmt_execute($stmt);
-        
-                if (!$result) {
-                    throw new \Exception("Erro ao executar a query: " . mysqli_stmt_error($stmt));
-                }
-        
-                mysqli_stmt_close($stmt);
-                mysqli_close($conn);
-        
-                return true; // Exclusão bem-sucedida
-            } catch (\Exception $erro) {
-                echo "Erro: " . $erro->getMessage();
-                return false; // Exclusão falhou
-            }
-        }
     }//fim excluir
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['codigos'])) {
+        $conexao = new Conexao();
+        $conn = $conexao->conectar();
+        
+        if ($conn) {
+            $codigos = explode(',', $_POST['codigos']);
+            $codigos = array_map('intval', $codigos); // Sanitiza os valores
+            $codigosString = implode(',', $codigos);
+            
+            $sql = "DELETE FROM residuos WHERE codigo IN ($codigosString)";
+            
+            if (mysqli_query($conn, $sql)) {
+                echo "success";
+            } else {
+                
+                echo "Erro ao excluir: " . mysqli_error($conn);
+            }
+            
+            mysqli_close($conn);
+        } else {
+            
+            echo "Erro na conexão com o banco de dados";
+        }
+    } else {
+        
+        echo "Requisição inválida";
+    }
 ?>
 

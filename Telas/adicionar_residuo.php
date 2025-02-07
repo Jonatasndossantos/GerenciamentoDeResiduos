@@ -15,8 +15,10 @@ require_once('../DAO/Inserir.php');
 use PHP\Modelo\DAO\Conexao;
 use PHP\Modelo\DAO\Inserir;
 
+$conexao = new Conexao();
+$conn = $conexao->conectar();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $conexao = new Conexao();
     $result = "";
     $message = "";
     
@@ -38,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,15 +79,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <select name="categoria" class="form-select" required>
                             <option value="">Todas as categorias</option>
                             <?php
-                            $categorias = [
-                                'nao reciclavel', 'reciclavel', 'óleo', 'tampinhas plasticas',
-                                'lacres de aluminio', 'tecidos', 'meias', 'material de escrita',
-                                'sponjas', 'eletrônicos', 'pilhas e baterias', 'infectante',
-                                'químicos', 'lâmpada fluorescente', 'tonners de impressora',
-                                'esmaltes', 'cosméticos', 'cartela de medicamento'
-                            ];
-                            foreach ($categorias as $cat) {
-                                echo "<option value='$cat'>$cat</option>";
+                            // Buscar categorias do banco de dados
+                            $sql = "SELECT categoria FROM categoria ORDER BY categoria";
+                            $result = mysqli_query($conn, $sql);
+
+                            if ($result) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $cat = $row['categoria'];
+                                    echo "<option value='$cat'>$cat</option>";
+                                }
+                            } else {
+                                echo "<option value=''>Erro ao carregar categorias</option>";
                             }
                             ?>
                         </select>

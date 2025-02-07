@@ -163,7 +163,7 @@ if (!$result) {
     <div class="modal fade" id="editCategoriaModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="../DAO/editar_categoria.php" method="POST">
+                <form method="POST">
                     <input type="hidden" id="edit_codigo" name="codigo">
                     <div class="modal-header">
                         <h5 class="modal-title">Editar Categoria</h5>

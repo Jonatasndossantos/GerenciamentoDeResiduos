@@ -15,12 +15,10 @@ use PHP\Modelo\DAO\Inserir;
 
 // Cria uma instância da classe Conexao
 $conexao = new Conexao();
+$consultar = new Consultar();
 
 // Obtém a conexão mysqli
 $conn = $conexao->conectar();
-
-
-
 
 // Gerencia o checkbox "selecionar todos"
 if (isset($_POST['select_all_checkbox'])) {
@@ -47,7 +45,7 @@ if (isset($_GET['action'])) {
         case 'delete':
             // Redireciona para o processamento de exclusão
             if (isset($_POST['codigos'])) {
-                header('Location: ../DAO/excluir_residuos.php');
+                header('Location: ../DAO/Excluir.php');
                 exit;
             }
             break;
@@ -91,6 +89,7 @@ if (isset($_GET['action'])) {
                                     <i class="bi bi-funnel"></i> Filtros
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end p-3" style="min-width: 250px;">
+                                    <!-- Get para filtro e pesquisa-->
                                     <form method="GET" action="">
                                         <h6 class="dropdown-header">Filtrar por:</h6>
                                         <div class="mb-3">
@@ -103,13 +102,17 @@ if (isset($_GET['action'])) {
                                             <select name="categoria_filtro" class="form-select">
                                                 <option value="">Todas as categorias</option>
                                                 <?php
+                                                    // Buscar categorias do banco de dados
+                                                    $sql = "SELECT categoria FROM categoria ORDER BY categoria";
+                                                    $result = mysqli_query($conn, $sql);
                                                     
-                                                    $categorias = [
-                                                ];
-                                                foreach ($categorias as $cat) {
-                                                    $selected = (isset($_GET['categoria_filtro']) && $_GET['categoria_filtro'] === $cat) ? 'selected' : '';
-                                                    echo "<option value='$cat' $selected>$cat</option>";
-                                                }
+                                                    if ($result) {
+                                                        while ($row = mysqli_fetch_assoc($result)) {
+                                                            $cat = $row['categoria'];
+                                                            $selected = (isset($_GET['categoria_filtro']) && $_GET['categoria_filtro'] === $cat) ? 'selected' : '';
+                                                            echo "<option value='$cat' $selected>$cat</option>";
+                                                        }
+                                                    }
                                                 ?>
                                             </select>
                                         </div>
@@ -130,8 +133,8 @@ if (isset($_GET['action'])) {
                                 </svg>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="../Templetes/perfil.php"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
-                                    <li><a class="dropdown-item" href="../Templetes/configuracoes.php"><i class="bi bi-gear me-2"></i>Categorias</a></li>
+                                    <li><a class="dropdown-item" href="../Telas/perfil.php"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
+                                    <li><a class="dropdown-item" href="../Telas/configuracoes.php"><i class="bi bi-gear me-2"></i>Categorias</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item text-danger" href="../logout.php"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
                                 </ul>
@@ -274,7 +277,7 @@ if (isset($_GET['action'])) {
 <div id="deleteEmployeeModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="POST" action="../DAO/excluir_residuos.php" id="deleteForm">
+            <form method="POST" action="../DAO/Excluir.php" id="deleteForm">
                 <div class="modal-header">						
                     <h4 class="modal-title">Excluir Resíduo(s)</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -311,97 +314,7 @@ if (isset($_GET['action'])) {
     </div>
 </div>
 
-<script>
-function submitDeleteSingle(codigo) {
-    document.getElementById('selectedCodigos').value = codigo;
-    const modal = new bootstrap.Modal(document.getElementById('deleteEmployeeModal'));
-    modal.show();
-}
-
-function submitDelete() {
-    const checkboxes = document.querySelectorAll('.checkbox-item:checked');
-    if (checkboxes.length === 0) {
-        alert('Por favor, selecione pelo menos um registro para excluir.');
-        return;
-    }
-    
-    const codigos = Array.from(checkboxes).map(cb => cb.value);
-    document.getElementById('selectedCodigos').value = codigos.join(',');
-    const modal = new bootstrap.Modal(document.getElementById('deleteEmployeeModal'));
-    modal.show();
-}
-
-function handleDelete() {
-    const selectedCodigos = document.getElementById('selectedCodigos').value;
-    if (!selectedCodigos) {
-        alert('Nenhum item selecionado para exclusão.');
-        return false;
-    }
-
-    const form = document.getElementById('deleteForm');
-    const formData = new FormData(form);
-
-    fetch('../DAO/excluir_residuos.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erro na resposta do servidor');
-        }
-        return response.text();
-    })
-    .then(data => {
-        // Fecha o modal de exclusão
-        const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteEmployeeModal'));
-        deleteModal.hide();
-
-        // Mostra o modal de sucesso
-        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-        successModal.show();
-    })
-    .catch(error => {
-        console.error('Erro:', error);
-        alert('Ocorreu um erro ao excluir os registros.');
-    });
-
-    return false; // Previne o envio tradicional do formulário
-}
-
-// Limpa os códigos quando o modal for fechado
-document.getElementById('deleteEmployeeModal').addEventListener('hidden.bs.modal', function () {
-    document.getElementById('selectedCodigos').value = '';
-});
-
-function preencherModal(codigo, dt, categoria, peso) {
-    document.querySelector('#editEmployeeModal input[name="codigo"]').value = codigo;
-    document.querySelector('#editEmployeeModal input[name="dt"]').value = dt;
-    document.querySelector('#editEmployeeModal select[name="categoria"]').value = categoria;
-    document.querySelector('#editEmployeeModal input[name="peso"]').value = peso;
-}
-
-function realizarPesquisa() {
-    const searchTerm = document.getElementById('searchInput').value;
-    let currentUrl = new URL(window.location.href);
-    
-    // Atualiza ou adiciona o parâmetro de pesquisa
-    if (searchTerm) {
-        currentUrl.searchParams.set('search', searchTerm);
-    } else {
-        currentUrl.searchParams.delete('search');
-    }
-    
-    // Mantém os outros filtros existentes
-    window.location.href = currentUrl.toString();
-}
-
-// Permite pesquisar ao pressionar Enter
-document.getElementById('searchInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        realizarPesquisa();
-    }
-});
-</script>
+<script src="../js/Tabela.js"></script>
 
 
 
