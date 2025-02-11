@@ -1,3 +1,3 @@
 <?php
-    header('Location: Login.php');
+    header('Location: Telas/login.php');
 ?>
