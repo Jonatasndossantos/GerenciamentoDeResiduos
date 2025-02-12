@@ -3,11 +3,14 @@ namespace PHP\Modelo\Telas;
 require_once('../DAO/Conexao.php');
 use PHP\Modelo\DAO\Conexao;
 
+// Inicia a sessão
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if (!isset($_SESSION['usuario'])) {
+// Verifica se o usuário está logado
+if (!isset($_SESSION['usuario'])) {    
+    // Redireciona para a página de login
     header('Location: login.php');
     exit;
 }
@@ -62,9 +65,18 @@ if (!$result) {
     <meta charset="UTF-8">
     <title>Configurações</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../Css/BotaoDark.css">
+    <style>
+        body{
+        background-image: url(../img/Reciclagem.jpeg);
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-4">
+    <!--botao dark-->
+    <?php include('../Templetes/BotaoDark.php');?>
+    <!--fim botao dark-->
+    <div class="card p-2 container mt-4">
         <h2>Configurações</h2>
         
         
@@ -107,13 +119,16 @@ if (!$result) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php while ($categoria = mysqli_fetch_assoc($result)): ?>
+                                <?php while ($categoria = mysqli_fetch_array($result)): ?>
                                     <tr id="row-<?php echo $categoria['codigo']; ?>">
-                                        <td><?php echo htmlspecialchars($categoria['codigo']); ?></td>
+                                         <!--Codigo-->
+                                        <td><?php echo ($categoria['codigo']); ?></td>
+                                        <!--FIM Codigo-->
+                                        <!--categoria-->
                                         <td>
                                             <div class="view-mode">
                                                 <span class="categoria-texto">
-                                                    <?php echo htmlspecialchars($categoria['categoria']); ?>
+                                                    <?php echo ($categoria['categoria']); ?>
                                                 </span>
                                             </div>
                                             
@@ -124,7 +139,7 @@ if (!$result) {
                                                            value="<?php echo $categoria['codigo']; ?>">
                                                     <div class="input-group">
                                                         <input type="text" class="form-control" name="categoria" 
-                                                               value="<?php echo htmlspecialchars($categoria['categoria']); ?>">
+                                                               value="<?php echo ($categoria['categoria']); ?>">
                                                         <button type="submit" class="btn btn-success btn-sm">Salvar</button>
                                                         <button type="button" class="btn btn-danger btn-sm" 
                                                                 onclick="cancelarEdicao(<?php echo $categoria['codigo']; ?>)">
@@ -134,6 +149,8 @@ if (!$result) {
                                                 </form>
                                             </div>
                                         </td>
+                                        <!--FIM categoria-->
+                                        <!--acoes-->
                                         <td>
                                             <button class="btn btn-sm btn-warning" 
                                                     onclick="habilitarEdicao(<?php echo $categoria['codigo']; ?>)">
@@ -149,6 +166,7 @@ if (!$result) {
                                                 </button>
                                             </form>
                                         </td>
+                                        <!--FIM acoes-->
                                     </tr>
                                 <?php endwhile; ?>
                             </tbody>
@@ -204,5 +222,7 @@ if (!$result) {
             editMode.style.display = 'none';
         }
     </script>
+ <!--javascript do botao-->
+ <script src="../js/BotaoDark.js"></script>
 </body>
 </html> 

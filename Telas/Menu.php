@@ -7,13 +7,17 @@
 
     use PHP\Modelo\DAO\Conexao;
     use PHP\Modelo\DAO\Inserir;
+ 
+// Inicia a sessão
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-    session_start(); // Inicia a sessão
 // Verifica se o usuário está logado
 if (!isset($_SESSION['usuario'])) {
     // Redireciona para a página de login
     header('Location: login.php');
-    exit();
+    exit;
 }
 
 $usuarioLogado = $_SESSION['usuario']; // Obtém o nome do usuário logado

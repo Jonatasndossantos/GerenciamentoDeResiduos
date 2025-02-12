@@ -1,19 +1,25 @@
 <?php
 namespace PHP\Modelo\Telas;
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-if (!isset($_SESSION['usuario'])) {
-    // Redireciona para a página de login
-    header('Location: login.php');
-    exit();
-}
 require_once('../DAO/Conexao.php');
 require_once('../DAO/Inserir.php');
 
 use PHP\Modelo\DAO\Conexao;
 use PHP\Modelo\DAO\Inserir;
+
+
+// Inicia a sessão
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Verifica se o usuário está logado
+if (!isset($_SESSION['usuario'])) {    
+    // Redireciona para a página de login
+    header('Location: login.php');
+    exit;
+}
+
 
 $conexao = new Conexao();
 $conn = $conexao->conectar();

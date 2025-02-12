@@ -1,12 +1,22 @@
 <?php
 namespace PHP\Modelo\Telas;
 
-session_start();
-
 require_once('..\DAO\Consultar.php');
 require_once('..\DAO\Conexao.php');
 use PHP\Modelo\DAO\Consultar;
 use PHP\Modelo\DAO\Conexao;
+
+// Inicia a sessão
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Verifica se o usuário está logado
+if (!isset($_SESSION['usuario'])) {    
+    // Redireciona para a página de login
+    header('Location: login.php');
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['usuario']) && isset($_POST['nova_senha'])) {

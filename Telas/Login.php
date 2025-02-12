@@ -2,12 +2,18 @@
 
     namespace PHP\Modelo\Telas;
     
-    session_start(); // Inicia a sessão
     
     require_once('..\DAO\Consultar.php');
     require_once('..\DAO\Conexao.php');
     use PHP\Modelo\DAO\Consultar;
     use PHP\Modelo\DAO\Conexao;
+
+
+    // Inicia a sessão
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
