@@ -87,3 +87,25 @@ document.getElementById('searchInput').addEventListener('keypress', function(e) 
         realizarPesquisa();
     }
 });
+
+function updateSelectedCount() {
+    const checkboxes = document.querySelectorAll('.checkbox-item:checked');
+    const count = checkboxes.length;
+    const countDisplay = document.getElementById('selectedCount');
+    countDisplay.textContent = count + (count === 1 ? ' selecionado' : ' selecionados');
+}
+
+// Adicionar listener para o checkbox "selecionar todos"
+document.getElementById('selectAll').addEventListener('change', function() {
+    const checkboxes = document.querySelectorAll('.checkbox-item');
+    checkboxes.forEach(checkbox => checkbox.checked = this.checked);
+    updateSelectedCount();
+});
+
+// Adicionar listeners para todos os checkboxes individuais
+document.querySelectorAll('.checkbox-item').forEach(checkbox => {
+    checkbox.addEventListener('change', updateSelectedCount);
+});
+
+// Atualizar contagem inicial
+document.addEventListener('DOMContentLoaded', updateSelectedCount);

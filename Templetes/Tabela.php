@@ -75,7 +75,7 @@ if (isset($_GET['action'])) {
                                            class="form-control" 
                                            id="searchInput"
                                            name="search" 
-                                           placeholder="Pesquisar resíduos..."
+                                           placeholder="Pesquisar..."
                                            value="<?php echo $_GET['search'] ?? ''; ?>">
                                     <button class="btn btn-outline-secondary" type="button" onclick="realizarPesquisa()">
                                         <i class="bi bi-search"></i>
@@ -93,9 +93,22 @@ if (isset($_GET['action'])) {
                                     <form method="GET" action="">
                                         <h6 class="dropdown-header">Filtrar por:</h6>
                                         <div class="mb-3">
-                                            <label class="form-label">Data</label>
-                                            <input type="date" name="data_filtro" class="form-control form-control-sm" 
-                                                   value="<?php echo $_GET['data_filtro'] ?? ''; ?>">
+                                            <div class="d-flex gap-2">
+                                                <div>
+                                                    <label class="form-label small">De</label>
+                                                    <input type="date" 
+                                                           name="data_inicio" 
+                                                           class="form-control form-control-sm" 
+                                                           value="<?php echo $_GET['data_inicio'] ?? ''; ?>">
+                                                </div>
+                                                <div>
+                                                    <label class="form-label small">Até</label>
+                                                    <input type="date" 
+                                                           name="data_fim" 
+                                                           class="form-control form-control-sm" 
+                                                           value="<?php echo $_GET['data_fim'] ?? ''; ?>">
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Categoria</label>
@@ -117,7 +130,7 @@ if (isset($_GET['action'])) {
                                             </select>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-sm w-100 mb-2">Aplicar Filtros</button>
-                                        <?php if (isset($_GET['data_filtro']) || isset($_GET['categoria_filtro'])): ?>
+                                        <?php if (isset($_GET['data_inicio']) || isset($_GET['data_fim']) || isset($_GET['categoria_filtro'])): ?>
                                             <a href="<?php echo strtok($_SERVER["REQUEST_URI"], '?'); ?>" 
                                                class="btn btn-outline-secondary btn-sm w-100">Limpar Filtros</a>
                                         <?php endif; ?>
@@ -151,13 +164,14 @@ if (isset($_GET['action'])) {
                     <div class="card-body d-flex justify-content-between align-items-center pt-4 ">
                         <div class="d-flex gap-2">
                             <button class="btn btn-danger d-flex" onclick="submitDelete()">
-                                <i class="material-icons px-1 pt-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font>
+                                <i class="material-icons px-1 pt-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font>
                                 </i> 
                                 <h6 class="px-1 pt-1"> Excluir Selecionados</h6>
                             </button>
+                            <span class="badge bg-secondary align-self-center" id="selectedCount">0 selecionados</span>
                         </div>
                         <a href="adicionar_residuo.php" class="btn btn-success d-flex">
-                            <i class="material-icons px-1 pt-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font>
+                            <i class="material-icons px-1 pt-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font>
                             </i> <h6 class="px-1 pt-1">Adicionar Resíduo</h6> 
                         </a>
                     </div>
@@ -181,7 +195,6 @@ if (isset($_GET['action'])) {
                                         <th scope="col"><h4>Data</h4></th>
                                         <th scope="col"><h4>Categoria</h4></th>
                                         <th scope="col"><h4>Peso</h4></th>
-                                        <th scope="col"><h4>Destino</h4></th>
                                         <th scope="col"><h4>Ações</h4></th>
                                     </tr>
                                 </thead>
@@ -194,9 +207,14 @@ if (isset($_GET['action'])) {
                                         $sql = "SELECT * FROM residuos WHERE 1=1";
                                         
                                         // Adiciona filtros se existirem
-                                        if (isset($_GET['data_filtro']) && !empty($_GET['data_filtro'])) {
-                                            $data_filtro = mysqli_real_escape_string($conn, $_GET['data_filtro']);
-                                            $sql .= " AND DATE(dt) = '$data_filtro'";
+                                        if (isset($_GET['data_inicio']) && !empty($_GET['data_inicio'])) {
+                                            $data_inicio = mysqli_real_escape_string($conn, $_GET['data_inicio']);
+                                            $sql .= " AND DATE(dt) >= '$data_inicio'";
+                                        }
+                                        
+                                        if (isset($_GET['data_fim']) && !empty($_GET['data_fim'])) {
+                                            $data_fim = mysqli_real_escape_string($conn, $_GET['data_fim']);
+                                            $sql .= " AND DATE(dt) <= '$data_fim'";
                                         }
                                         
                                         if (isset($_GET['categoria_filtro']) && !empty($_GET['categoria_filtro'])) {
@@ -210,7 +228,6 @@ if (isset($_GET['action'])) {
                                             $sql .= " AND (categoria LIKE '%$search%' 
                                                       OR usuario LIKE '%$search%' 
                                                       OR dt LIKE '%$search%' 
-                                                      OR destino LIKE '%$search%' 
                                                       OR peso LIKE '%$search%')";
                                         }
 
@@ -234,7 +251,6 @@ if (isset($_GET['action'])) {
                                                     <td><?php echo $res['dt']; ?>hrs</td>
                                                     <td><?php echo $res['categoria']; ?></td>
                                                     <td><?php echo $res['peso']; ?>kg</td>
-                                                    <td><?php echo $res['destino']; ?></td>
                                                     <td>
                                                         <a href="editar_residuo.php?codigo=<?php echo $res['codigo']; ?>&dt=<?php echo $res['dt']; ?>&categoria=<?php echo $res['categoria']; ?>&peso=<?php echo $res['peso']; ?>" 
                                                             class="edit">
