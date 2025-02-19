@@ -109,3 +109,25 @@ document.querySelectorAll('.checkbox-item').forEach(checkbox => {
 
 // Atualizar contagem inicial
 document.addEventListener('DOMContentLoaded', updateSelectedCount);
+
+document.addEventListener('DOMContentLoaded', function() {
+    const periodoSelect = document.querySelector('select[name="periodo"]');
+    const datasPersonalizadas = document.getElementById('datas_personalizadas');
+    
+    if (periodoSelect) {
+        periodoSelect.addEventListener('change', function() {
+            if (this.value === 'personalizado') {
+                datasPersonalizadas.style.display = 'block';
+            } else {
+                datasPersonalizadas.style.display = 'none';
+            }
+        });
+    }
+});
+
+function mudarItensPorPagina(valor) {
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set('por_pagina', valor);
+    urlParams.set('pagina', 1); // Volta para primeira página ao mudar quantidade
+    window.location.search = urlParams.toString();
+}

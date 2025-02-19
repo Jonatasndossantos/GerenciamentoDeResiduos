@@ -66,7 +66,7 @@ if (session_status() === PHP_SESSION_NONE) {
 </head>
 
 <body class="d-flex align-items-center py-4 bg-body-tertiary" cz-shortcut-listen="true">
-    <?php include('../Templetes/BotaoDark.php');?>
+    <?php include('../Templates/BotaoDark.php');?>
 
     <!--caixa de login-->
     <main class="card p-4 form-signin w-100 m-auto">
