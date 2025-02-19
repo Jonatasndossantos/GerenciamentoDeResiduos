@@ -42,11 +42,11 @@ $usuarioLogado = $_SESSION['usuario']; // Obtém o nome do usuário logado
 </head>
 <body>
     <!--botao dark-->
-    <?php include('../Templetes/BotaoDark.php');?>
+    <?php include('../templates/BotaoDark.php');?>
     <!--fim botao dark-->
 
     <!--https://www.php.net/manual/en/mysqli-result.fetch-array.php-->
-    <?php include('../Templetes/Tabela.php');?>
+    <?php include('../templates/Tabela.php');?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 

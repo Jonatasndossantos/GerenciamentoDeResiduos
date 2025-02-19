@@ -51,6 +51,22 @@ if (isset($_GET['action'])) {
             break;
     }
 }
+
+// Prepara os filtros
+$filtros = array();
+if (isset($_GET['data_inicio']) && !empty($_GET['data_inicio'])) {
+    $filtros['data_inicio'] = $_GET['data_inicio'];
+}
+if (isset($_GET['data_fim']) && !empty($_GET['data_fim'])) {
+    $filtros['data_fim'] = $_GET['data_fim'];
+}
+if (isset($_GET['categoria_filtro']) && !empty($_GET['categoria_filtro'])) {
+    $filtros['categoria'] = $_GET['categoria_filtro'];
+}
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    $filtros['search'] = $_GET['search'];
+}
+
 ?>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="../Css/Table.css">
@@ -203,36 +219,8 @@ if (isset($_GET['action'])) {
                                     
                                     // Verifica se a conexão foi bem-sucedida
                                     if ($conn) {
-                                        // Prepara a consulta SQL base
-                                        $sql = "SELECT * FROM residuos WHERE 1=1";
-                                        
-                                        // Adiciona filtros se existirem
-                                        if (isset($_GET['data_inicio']) && !empty($_GET['data_inicio'])) {
-                                            $data_inicio = mysqli_real_escape_string($conn, $_GET['data_inicio']);
-                                            $sql .= " AND DATE(dt) >= '$data_inicio'";
-                                        }
-                                        
-                                        if (isset($_GET['data_fim']) && !empty($_GET['data_fim'])) {
-                                            $data_fim = mysqli_real_escape_string($conn, $_GET['data_fim']);
-                                            $sql .= " AND DATE(dt) <= '$data_fim'";
-                                        }
-                                        
-                                        if (isset($_GET['categoria_filtro']) && !empty($_GET['categoria_filtro'])) {
-                                            $categoria_filtro = mysqli_real_escape_string($conn, $_GET['categoria_filtro']);
-                                            $sql .= " AND categoria = '$categoria_filtro'";
-                                        }
-
-                                        // Adicionar condição de pesquisa
-                                        if (isset($_GET['search']) && !empty($_GET['search'])) {
-                                            $search = mysqli_real_escape_string($conn, $_GET['search']);
-                                            $sql .= " AND (categoria LIKE '%$search%' 
-                                                      OR usuario LIKE '%$search%' 
-                                                      OR dt LIKE '%$search%' 
-                                                      OR peso LIKE '%$search%')";
-                                        }
-
-                                        // Executa a consulta
-                                        $result = mysqli_query($conn, $sql);
+                                        // Consulta os resíduos com os filtros
+                                        $result = $consultar->consultarResiduos($filtros);
                                     
                                         // Verifica se a consulta foi bem-sucedida
                                         if ($result) {
